@@ -1,0 +1,31 @@
+{
+  "pets": [
+    {
+      "name": "Autumn",
+      "tag": "Tag 1",
+      "id": 1
+    },
+    {
+      "name": "TC",
+      "tag": "Tag 2",
+      "id": 2
+    },{
+      "name": "George",
+      "tag": "Tag 3",
+      "id": 3
+    },{
+      "name": "Feathers",
+      "tag": "Tag 4",
+      "id": 4
+    },{
+      "name": "Pfiefer",
+      "tag": "Tag 5",
+      "id": 5
+    },
+    {
+      "name": "Mindy",
+      "tag": "Tag 6",
+      "id": 6
+    }
+  ]
+}

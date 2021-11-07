@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import * as React from 'react';
+import PetTable from './pets/pets-view/pets-view.component';
+import PetCreate from './pets/pets-create/pets-create.component';
+import MyAppBar from './app-bar/app-bar.component';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate
+} from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+      <MyAppBar/>
+        <main>
+          <Routes>
+            <Route path="/" element={<Navigate to="/view-pets" />}/>
+            <Route path="/create-pet" element={<PetCreate/>} />
+            <Route path="/view-pets" element={<PetTable/>} />
+            <Route path="*" element={<Navigate to="/view-pets" />} />
+          </Routes>
+        </main>
+      </Router>
     </div>
   );
 }
-
 export default App;

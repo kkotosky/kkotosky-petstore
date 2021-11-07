@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: #E8E9EA;
+}
+
+.util-m-b-8 { margin-bottom: 8px !important; }
+.util-m-t-8 { margin-top: 8px !important; }
+.util-m-r-8 { margin-right: 8px !important; }
+.util-m-l-8 { margin-left: 8px !important; }
+.util-float-right { float: right !important;}
+.util-full-width { width: 100%; }
+.util-background-white { background-color: white; }
+.util-display-block { display: block !important;}
+.circular-progress__in-processing-button {
+  height: 25px !important;
+  width: 25px !important;
+}
+
+.pet-app__page-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.pet-app__page-spacer {
+  flex-basis: 90%;
+}
+
+
+.alert__failure-background {
+  background-color: #FFCCCB !important;
+}

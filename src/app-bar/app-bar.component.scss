@@ -1,0 +1,22 @@
+// Override styles which are overriden when the toolbar actions are used with the DataGrid component.
+// Opening toolbar component loads the "MuiPaper" css file which causes the app bar to turn White and black. 
+// Further investigation required, to determine loading causes and fixes. 
+
+// Current investigation - Upgrading to v5 beta version of x-data-grid, fixes noted issue however causes the filter bar to render 
+// incorrectly - in an attempt to fix the filter bar loading incorreclty - upgraded @material-ui/styles to v5 beta version and
+// an issue related to the preferred dark theme occured when accessing the Create page 
+// TypeError: Cannot read properties of undefined (reading 'dark') material-ui
+
+.my-app-bar {
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+.my-app-bar__menu-item {
+  width: 100px; 
+  height: 50px;
+}
+
+.my-app-bar__menu-link {
+  text-decoration: none;
+}
