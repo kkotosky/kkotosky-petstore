@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Overview
+Kevin Kotosky's implementation of the EBD petstore react assignment. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Pre-install set up
+If node hasn't been used before please install Node. It can be downloaded at http://nodejs.org/download/. Specifically version 14.15.5 was used to build the app. (https://nodejs.org/download/release/v14.15.5/).
 
-## Available Scripts
+# Application set up
+Please run ``` npm install ``` which will run through the dependencies documented in package.json and install the version listed in package-lock.json to create a node_modules folder.
 
-In the project directory, you can run:
+# To run locally
+Please run ``` npm start ```. This will start up a local instance of this application. Your default browser should automatically open, but if not navigate to ```http://localhost:3000/``` to see the application in action.
 
-### `npm start`
+# To manipulate the fixture server and change responses
+The fixture server is a locally run express server to make changes to the server responses for local development testing. Please uncomment and comment the neccessary lines in ./fixture-server/routes/pets/index.js (or your own provided route file). Please note that only one res.status line per route should be uncommented to ensure the server doesn't crash.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+  // Success response
+  res.status(200).json(returnVal);
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  //Empty Case
+  // res.status(200).json([]); <-- if uncommented without commenting the above, the fixture server will crash.
+```
 
-### `npm test`
+If a change is made to the server code the server must be restarted. Ctrl+C and a rerun of ```npm start``` through the command line will ensure the latest server code is running.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# Adding a new views to the application. 
+A new folder should be added to the application titled appropriately for what type of data is managed through the contained views. (In the provided example "pets"). 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# State Management files
+Folders then can be created for "actions" and "reducers" for managing the state of each view contained in the folder. Within these folders there should contain javascript files with names corresponding to each view. So the data logic and state management code is aptly named and easily accessible when editing each of the newly provided views.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+In the provided example ...
+create-actions/create-reducers -> pets-create view, 
+view-actions/view-reducers -> pets-view view
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Reducers will need to be imported and added to the combined reducer block in ./src/reducers/index.js. 
 
-### `npm run eject`
+```
+  const rootReducer = combineReducers({
+    petHandling,
+    petCreation,
+    --> yourReducer() <--
+  });
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Views
+A folder can be created with the file naming structure of (primary data object)-action. In which the action represents the user action take on that screen or other appropriate naming. (e.g. Create / View / Delete / Update). Within each of these folders there should be two files, the .component.js file and the .scss file. These component will be the view for the page to render. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# New non-view components
+Any additional components necessary to build a view should be analyzed to determine how re-useable they are in the application. If a new component is likely to appear in other locations in the application (e.g. loading-spinner) its folder can be added to the ./src/ folder directly. If a component is only going to appear at a view level and on no other views its folder can be added to the parent component level. (e.g. ./src/pets/pets-create/my-new-pets-create-specific.component.js)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Adding the view to React router
+In ./src/ App.js starting at line 20 the routes and the corresponding path's are registered to the react router. Adding an appropriate path and lnking it to your component through the element attribute will alert react to load your component when the user visits the routes.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+  <Route path="/your-create-route" element={<YourCreateComponent/>} />
+```
 
-## Learn More
+# Adding the view to menu navigation
+In ./src/app-bar/app-bar.component.js the following code block exists at line 66 (currently)
+```
+  <Link to="/create-pet" className="my-app-bar__menu-link"> 
+    <Button className="my-app-bar__menu-item"> Pets </Button>
+  </Link>
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Adding a similar style link immediately to your component following the provided code block pattern will add a link to the corresponding button on the menu. The "to" attribute should be equal to the "path" attribute you provided when editing the React router Routes.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+  <Link to="/your-create-route" className="my-app-bar__menu-link"> 
+    <Button className="my-app-bar__menu-item"> Your Data Type </Button>
+  </Link>
+```
 
-### Code Splitting
+# Updating the fixture server.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+New api-routes should be added in the ./fixture-server/routes/ folder. Appropriately named after the data type managed by the routes. For example ./fixture-server/routes/pets/index.js contains the routes for the /pets API. 
 
-### Analyzing the Bundle Size
+Once your new routes have been defined they should be registered to the server itself. This can be done after line 19 (currently). Following the same pattern as line 19. 
+```
+  app.use('/your-base-api-path', yourImportedRoutes);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The Fixture server should then be reachable at your provided routes.
